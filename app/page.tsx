@@ -3,24 +3,13 @@
 import { useState } from "react";
 
 /* ─── Logo ──────────────────────────────────────────── */
-function WrkmanLogo() {
+function EFixLogo() {
   return (
     <div className="flex items-center gap-2">
-      <svg width="44" height="36" viewBox="0 0 44 36" fill="none">
-        <path
-          d="M2 4 L9 32 L16 14 L22 24 L28 14 L35 32 L42 4"
-          stroke="url(#wg)"
-          strokeWidth="4"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        <defs>
-          <linearGradient id="wg" x1="2" y1="18" x2="42" y2="18" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#00CFFF" />
-            <stop offset="1" stopColor="#0060FF" />
-          </linearGradient>
-        </defs>
-      </svg>
+      {/* E-Fix lettermark: bold "E" on a gradient pill */}
+      <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg,#00CFFF 0%,#1B6EF5 100%)" }}>
+        <span className="text-white font-extrabold text-xl leading-none select-none">E</span>
+      </div>
       <span className="text-xl font-bold text-[#1A2B4B]">E-Fix</span>
     </div>
   );
@@ -73,36 +62,75 @@ function ChevronWatermark() {
   );
 }
 
-/* ─── Google Play Button ─────────────────────────────── */
-function GooglePlayBtn() {
-  return (
-    <button className="flex items-center gap-3 bg-black text-white px-5 py-3 rounded-xl min-w-42.5 hover:bg-gray-800 transition">
-      <svg width="22" height="22" viewBox="0 0 24 24">
-        <path d="M3.18 23.76A2 2 0 0 1 2 22V2a2 2 0 0 1 1.18-1.76l11.32 11.32L3.18 23.76z" fill="#EA4335" />
-        <path d="M20.25 13.27l-2.85 1.64-3.13-3.13 3.13-3.13 2.88 1.66a2 2 0 0 1 0 2.96z" fill="#FBBC04" />
-        <path d="M3.18 23.76l11.09-11.08 3.13 3.13-11.53 6.64a2 2 0 0 1-2.69-2.69z" fill="#34A853" />
-        <path d="M3.18.24A2 2 0 0 1 5.87 2.55l11.53 6.64-3.13 3.13L3.18.24z" fill="#4285F4" />
-      </svg>
-      <div className="text-left leading-tight">
-        <div className="text-[9px] font-light tracking-wide">GET IT ON</div>
-        <div className="text-[15px] font-semibold">Google Play</div>
-      </div>
-    </button>
-  );
-}
+/* ─── Waitlist Modal ─────────────────────────────────── */
+function WaitlistModal({ onClose }: { onClose: () => void }) {
+  const [form, setForm] = useState({ name: "", email: "", phone: "", role: "user" });
+  const [submitted, setSubmitted] = useState(false);
+  const set = (k: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    setForm((f) => ({ ...f, [k]: e.target.value }));
 
-/* ─── App Store Button ───────────────────────────────── */
-function AppStoreBtn() {
   return (
-    <button className="flex items-center gap-3 bg-black text-white px-5 py-3 rounded-xl min-w-42.5 hover:bg-gray-800 transition">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
-        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-      </svg>
-      <div className="text-left leading-tight">
-        <div className="text-[9px] font-light tracking-wide">Download on the</div>
-        <div className="text-[15px] font-semibold">App Store</div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center px-4">
+      {/* backdrop */}
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} />
+      {/* card */}
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 z-10">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
+        </button>
+
+        {submitted ? (
+          <div className="flex flex-col items-center text-center py-6 gap-4">
+            <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+            </div>
+            <h3 className="text-xl font-bold text-[#0D1B3E]">You&apos;re on the list!</h3>
+            <p className="text-gray-500 text-sm">Thanks for joining the E-Fix waitlist. We&apos;ll notify you as soon as we launch.</p>
+            <button onClick={onClose} className="mt-2 bg-[#1B6EF5] text-white font-semibold px-8 py-3 rounded-full hover:bg-blue-700 transition">Done</button>
+          </div>
+        ) : (
+          <>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg,#00CFFF 0%,#1B6EF5 100%)" }}>
+                <span className="text-white font-extrabold text-lg leading-none">E</span>
+              </div>
+              <div>
+                <h3 className="text-lg font-bold text-[#0D1B3E]">Join the Waitlist</h3>
+                <p className="text-gray-400 text-xs">Be first to know when E-Fix launches</p>
+              </div>
+            </div>
+            <div className="flex flex-col gap-4">
+              <input
+                type="text" placeholder="Full name" value={form.name} onChange={set("name")}
+                className="border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-700 placeholder-gray-400 outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <input
+                type="email" placeholder="Email address" value={form.email} onChange={set("email")}
+                className="border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-700 placeholder-gray-400 outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <input
+                type="tel" placeholder="Phone number" value={form.phone} onChange={set("phone")}
+                className="border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-700 placeholder-gray-400 outline-none focus:ring-2 focus:ring-blue-400"
+              />
+              <select
+                value={form.role} onChange={set("role")}
+                className="border border-gray-200 rounded-lg px-4 py-3 text-sm text-gray-700 outline-none focus:ring-2 focus:ring-blue-400 bg-white"
+              >
+                <option value="user">I need services (User)</option>
+                <option value="provider">I offer services (Provider)</option>
+                <option value="both">Both</option>
+              </select>
+              <button
+                onClick={() => { if (form.name && form.email) setSubmitted(true); }}
+                className="bg-[#1B6EF5] text-white font-semibold py-3 rounded-full hover:bg-blue-700 transition mt-1"
+              >
+                Join Waitlist
+              </button>
+            </div>
+          </>
+        )}
       </div>
-    </button>
+    </div>
   );
 }
 
@@ -118,7 +146,11 @@ function PhoneMap({ scale = 1 }: { scale?: number }) {
       {/* header bar */}
       <div className="flex items-center px-3 py-1 gap-1" style={{ fontSize: 8 * scale }}>
         <svg width={8 * scale} height={8 * scale} viewBox="0 0 24 24" fill="none" stroke="#555" strokeWidth="2"><path d="M4 6h16M4 12h16M4 18h16" /></svg>
-        <span className="flex-1 text-[#1B6EF5] font-bold ml-1" style={{ fontSize: 8 * scale }}>w</span>
+        <div className="flex items-center gap-0.5 ml-1">
+          <div className="rounded flex items-center justify-center bg-[#1B6EF5]" style={{ width: 10 * scale, height: 10 * scale }}>
+            <span className="text-white font-extrabold leading-none" style={{ fontSize: 7 * scale }}>E</span>
+          </div>
+        </div>
         <svg width={10 * scale} height={10 * scale} viewBox="0 0 24 24" fill="#1B6EF5"><circle cx="12" cy="8" r="4" /><path d="M12 12c-5 0-8 2.5-8 4v2h16v-2c0-1.5-3-4-8-4z" /></svg>
       </div>
       {/* location bar */}
@@ -176,15 +208,10 @@ function PhoneWelcome({ scale = 1 }: { scale?: number }) {
     >
       <div className="mx-auto mt-2 w-14 h-3 bg-gray-800 rounded-full" style={{ width: 56 * scale, height: 10 * scale }} />
       <div className="flex flex-col items-center px-4 pt-3">
-        {/* mini W logo */}
-        <svg width={28 * scale} height={22 * scale} viewBox="0 0 44 36" fill="none">
-          <path d="M2 4 L9 32 L16 14 L22 24 L28 14 L35 32 L42 4" stroke="url(#wg3)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-          <defs>
-            <linearGradient id="wg3" x1="2" y1="18" x2="42" y2="18" gradientUnits="userSpaceOnUse">
-              <stop stopColor="#00CFFF" /><stop offset="1" stopColor="#0060FF" />
-            </linearGradient>
-          </defs>
-        </svg>
+        {/* mini E logo */}
+        <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background: "linear-gradient(135deg,#00CFFF 0%,#1B6EF5 100%)" }}>
+          <span className="text-white font-extrabold text-sm leading-none">E</span>
+        </div>
         {/* illustration placeholder */}
         <div
           className="rounded-2xl bg-blue-50 flex items-center justify-center mt-2"
@@ -199,7 +226,7 @@ function PhoneWelcome({ scale = 1 }: { scale?: number }) {
             <path d="M46 20l3 3 5-5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <p className="font-bold text-[#1A2B4B] text-center mt-2" style={{ fontSize: 10 * scale }}>Welcome to wrkman!</p>
+        <p className="font-bold text-[#1A2B4B] text-center mt-2" style={{ fontSize: 10 * scale }}>Welcome to E-Fix!</p>
         <p className="text-gray-400 text-center mt-1 leading-snug" style={{ fontSize: 7.5 * scale }}>
           Get your essential needs provided instantly or on a scheduled time.
         </p>
@@ -356,14 +383,9 @@ function FooterSection() {
           {/* Logo — pushed to the right */}
           <div className="md:ml-auto flex items-start">
             <div className="flex items-center gap-2">
-              <svg width="44" height="36" viewBox="0 0 44 36" fill="none">
-                <path d="M2 4 L9 32 L16 14 L22 24 L28 14 L35 32 L42 4" stroke="url(#wgf)" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
-                <defs>
-                  <linearGradient id="wgf" x1="2" y1="18" x2="42" y2="18" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#00CFFF" /><stop offset="1" stopColor="#0060FF" />
-                  </linearGradient>
-                </defs>
-              </svg>
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "linear-gradient(135deg,#00CFFF 0%,#1B6EF5 100%)" }}>
+                <span className="text-white font-extrabold text-xl leading-none select-none">E</span>
+              </div>
               <span className="text-xl font-bold text-[#1A2B4B]">E-Fix</span>
             </div>
           </div>
@@ -552,22 +574,37 @@ function TestimonialsSection() {
   );
 }
 
+/* ─── Waitlist Button ────────────────────────────────── */
+function WaitlistButton({ onClick }: { onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="flex items-center gap-2 bg-[#1B6EF5] text-white font-semibold px-10 py-4 rounded-full hover:bg-blue-700 transition shadow-lg text-base"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+      </svg>
+      Join Waitlist
+    </button>
+  );
+}
+
 /* ─── Main Page ──────────────────────────────────────── */
 export default function Home() {
+  const [showWaitlist, setShowWaitlist] = useState(false);
+
   return (
     <div className="min-h-screen bg-white font-sans overflow-x-hidden">
+      {showWaitlist && <WaitlistModal onClose={() => setShowWaitlist(false)} />}
 
       {/* ── NAVBAR ─────────────────────────────────────── */}
       <nav className="flex items-center gap-6 px-10 py-4 bg-white border-b border-gray-100 sticky top-0 z-50">
-        <WrkmanLogo />
+        <EFixLogo />
         <SearchBar />
-        <div className="flex items-center gap-8 ml-auto">
-          {["About Us", "Blog", "FAQs", "Contact Us"].map((link) => (
-            <a key={link} href="#" className="text-[#1A2B4B] text-sm font-medium hover:text-blue-600 transition whitespace-nowrap">
-              {link}
-            </a>
-          ))}
-        </div>
+        <div className="ml-auto">
+            <WaitlistButton onClick={() => setShowWaitlist(true)} />
+          </div>
       </nav>
 
       {/* ── HERO ───────────────────────────────────────── */}
@@ -593,85 +630,20 @@ export default function Home() {
             <span className="text-[#0D1B3E]"> around you!</span>
           </h2>
           <p className="text-[#4E80B5] text-base leading-relaxed max-w-lg mx-auto mt-6">
-            Find home service providers and/or become a provider to provide services to clients in need of your services. Download the wrkman app to get started!
+            Find home service providers and/or become a provider to provide services to clients in need of your services. E-Fix is coming soon &mdash; join the waitlist to get early access!
           </p>
-          <div className="flex justify-center gap-5 mt-8">
-            <GooglePlayBtn />
-            <AppStoreBtn />
+          <div className="flex justify-center mt-8">
+            <WaitlistButton onClick={() => setShowWaitlist(true)} />
           </div>
         </div>
 
-        {/* phones – overflow into next section */}
-        <div className="relative z-10 flex justify-center items-end gap-6 -mb-24 px-6">
-          <PhoneMap />
-          <div className="mb-12">
-            <PhoneWelcome />
-          </div>
+        {/* phones */}
+        <div className="relative z-10 flex justify-center items-end gap-4 pb-12 px-6">
+          <PhoneMap scale={1.05} />
+          <PhoneWelcome scale={1.0} />
         </div>
       </section>
 
-      {/* ── APP SHOWCASE ───────────────────────────────── */}
-      <section className="relative flex overflow-hidden min-h-155">
-
-        {/* left: white, decorations + phones */}
-        <div className="flex-1 bg-white relative flex items-end justify-center pt-28 pb-10 overflow-hidden">
-          {/* small circles cluster */}
-          <div className="absolute left-10 top-1/2 -translate-y-1/2 flex flex-col gap-3 pointer-events-none">
-            <div className="w-6 h-6 rounded-full border-2 border-blue-200 opacity-50" />
-            <div className="w-5 h-5 rounded-full border-2 border-blue-200 opacity-40 ml-3" />
-            <div className="w-8 h-8 rounded-full border-2 border-blue-200 opacity-30 -ml-1" />
-          </div>
-          {/* outline rectangle frame */}
-          <div className="absolute left-28 top-1/2 -translate-y-[45%] w-52 h-80 border border-blue-100/60 rounded pointer-events-none" />
-          {/* large teal semi-circle behind phones */}
-          <div
-            className="absolute rounded-full bg-[#00B5C8] pointer-events-none"
-            style={{ width: 380, height: 380, top: "50%", left: "50%", transform: "translate(-50%, -30%)" }}
-          />
-          {/* phones */}
-          <div className="relative z-10 flex items-end gap-4">
-            <PhoneMap scale={0.92} />
-            <div className="mb-10">
-              <PhoneWelcome scale={0.88} />
-            </div>
-          </div>
-        </div>
-
-        {/* right: teal background with worker illustration */}
-        <div className="flex-1 bg-[#00B5C8] relative overflow-hidden flex items-center justify-center">
-          {/* large circle accent */}
-          <div
-            className="absolute rounded-full bg-[#009BB0]"
-            style={{ width: 420, height: 420, top: "50%", left: "-20%", transform: "translateY(-50%)" }}
-          />
-          {/* worker silhouette */}
-          <div className="relative z-10 flex flex-col items-center">
-            <svg width="260" height="360" viewBox="0 0 260 420" fill="none" className="opacity-90">
-              {/* hard hat */}
-              <ellipse cx="130" cy="70" rx="60" ry="22" fill="white" opacity="0.9" />
-              <rect x="70" y="70" width="120" height="14" rx="3" fill="white" opacity="0.9" />
-              <rect x="55" y="80" width="150" height="10" rx="5" fill="white" opacity="0.7" />
-              {/* head */}
-              <circle cx="130" cy="118" r="34" fill="white" opacity="0.75" />
-              {/* body / shirt */}
-              <rect x="86" y="155" width="88" height="110" rx="10" fill="white" opacity="0.65" />
-              {/* arms */}
-              <rect x="50" y="158" width="36" height="80" rx="10" fill="white" opacity="0.55" />
-              <rect x="174" y="158" width="36" height="80" rx="10" fill="white" opacity="0.55" />
-              {/* legs */}
-              <rect x="92" y="260" width="30" height="70" rx="8" fill="white" opacity="0.65" />
-              <rect x="138" y="260" width="30" height="70" rx="8" fill="white" opacity="0.65" />
-              {/* tool/wrench hint */}
-              <circle cx="197" cy="200" r="10" fill="white" opacity="0.4" />
-            </svg>
-          </div>
-          {/* decorative circles top-right */}
-          <div className="absolute top-8 right-10 pointer-events-none">
-            <div className="w-16 h-16 rounded-full border border-white/30" />
-            <div className="w-10 h-10 rounded-full border border-white/20 mt-2 ml-6" />
-          </div>
-        </div>
-      </section>
 
       {/* ── FEATURES CARDS ───────────────────────────── */}
       <section className="relative bg-white py-20 px-6 overflow-hidden">
@@ -932,15 +904,7 @@ export default function Home() {
       {/* ── FOOTER ─────────────────────────────────────── */}
       <FooterSection />
 
-      {/* ── CHAT WIDGET ────────────────────────────────── */}
-      <button
-        aria-label="Open chat"
-        className="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-blue-500 shadow-xl flex items-center justify-center text-white hover:bg-blue-600 transition z-50"
-      >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
-          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
-        </svg>
-      </button>
+
 
     </div>
   );

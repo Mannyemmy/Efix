@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "wrkman – Find Service Providers",
+  title: "E-Fix – Find Service Providers",
   description: "Find home service providers and/or become a provider to provide services to clients in need of your services.",
 };
 
