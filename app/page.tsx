@@ -289,7 +289,7 @@ function ContactSection() {
 
   return (
     <section className="bg-gray-50 py-6 px-6">
-      <div className="max-w-5xl mx-auto bg-[#1B3FBF] rounded-2xl px-12 py-14 relative overflow-hidden">
+      <div className="max-w-5xl mx-auto bg-[#1B3FBF] rounded-2xl px-4 sm:px-12 py-8 sm:py-14 relative overflow-hidden">
         {/* decorative concentric arcs */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 900 380" fill="none" preserveAspectRatio="xMidYMid slice">
           {[60,120,180,240,300,360].map((r) => (
@@ -330,7 +330,7 @@ function ContactSection() {
 
           {/* right: form */}
           <div className="flex-1 flex flex-col gap-4">
-            <div className="flex gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <input
                 type="text" placeholder="Name" value={form.name} onChange={set("name")}
                 className="flex-1 bg-white rounded-lg px-4 py-3 text-sm text-gray-700 placeholder-gray-400 outline-none focus:ring-2 focus:ring-cyan-400"
@@ -551,7 +551,7 @@ function TestimonialsSection() {
         {/* three cards */}
         <div className="flex items-center justify-center gap-5 flex-1">
           {[-1, 0, 1].map((offset) => (
-            <div key={offset} className="flex-1 max-w-75">
+            <div key={offset} className={`flex-1 max-w-75 ${offset !== 0 ? "hidden sm:block" : ""}`}>
               <TestimonialCard
                 {...TESTIMONIALS[getIndex(offset)]}
                 active={offset === 0}
@@ -579,7 +579,7 @@ function WaitlistButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="flex items-center gap-2 bg-[#1B6EF5] text-white font-semibold px-10 py-4 rounded-full hover:bg-blue-700 transition shadow-lg text-base"
+      className="flex items-center gap-2 bg-[#1B6EF5] text-white font-semibold px-5 sm:px-10 py-2.5 sm:py-4 rounded-full hover:bg-blue-700 transition shadow-lg text-sm sm:text-base"
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" />
@@ -599,12 +599,14 @@ export default function Home() {
       {showWaitlist && <WaitlistModal onClose={() => setShowWaitlist(false)} />}
 
       {/* ── NAVBAR ─────────────────────────────────────── */}
-      <nav className="flex items-center gap-6 px-10 py-4 bg-white border-b border-gray-100 sticky top-0 z-50">
+      <nav className="flex items-center gap-4 px-4 sm:px-10 py-4 bg-white border-b border-gray-100 sticky top-0 z-50">
         <EFixLogo />
-        <SearchBar />
+        <div className="hidden sm:flex flex-1">
+          <SearchBar />
+        </div>
         <div className="ml-auto">
-            <WaitlistButton onClick={() => setShowWaitlist(true)} />
-          </div>
+          <WaitlistButton onClick={() => setShowWaitlist(true)} />
+        </div>
       </nav>
 
       {/* ── HERO ───────────────────────────────────────── */}
@@ -620,11 +622,11 @@ export default function Home() {
         </div>
 
         {/* hero text */}
-        <div className="relative z-10 flex flex-col items-center text-center px-6 pt-20 pb-10">
-          <h1 className="text-[52px] font-extrabold text-[#0D1B3E] leading-tight">
+        <div className="relative z-10 flex flex-col items-center text-center px-6 pt-12 sm:pt-20 pb-10">
+          <h1 className="text-3xl sm:text-[52px] font-extrabold text-[#0D1B3E] leading-tight">
             Need Help? Get Help!
           </h1>
-          <h2 className="text-[52px] font-extrabold leading-tight mt-1">
+          <h2 className="text-3xl sm:text-[52px] font-extrabold leading-tight mt-1">
             <span className="text-[#0D1B3E]">Find Service </span>
             <span className="text-[#F5B82E]">Providers</span>
             <span className="text-[#0D1B3E]"> around you!</span>
@@ -639,7 +641,9 @@ export default function Home() {
 
         {/* phones */}
         <div className="relative z-10 flex justify-center items-end gap-4 pb-12 px-6">
-          <PhoneMap scale={1.05} />
+          <div className="hidden sm:block">
+            <PhoneMap scale={1.05} />
+          </div>
           <PhoneWelcome scale={1.0} />
         </div>
       </section>
@@ -792,7 +796,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-start gap-8">
             <h2 className="text-white text-3xl font-bold md:w-48 shrink-0 pt-6">For Users</h2>
             <div className="flex-1 bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="grid grid-cols-3 divide-x divide-gray-200">
+              <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
                 {/* Step 1 */}
                 <div className="p-8 flex flex-col gap-4">
                   <div className="w-10 h-10 flex items-center justify-center">
@@ -842,7 +846,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-start gap-8">
             <h2 className="text-white text-3xl font-bold md:w-48 shrink-0 pt-6">For Providers</h2>
             <div className="flex-1 bg-white rounded-2xl shadow-lg overflow-hidden">
-              <div className="grid grid-cols-3 divide-x divide-gray-200">
+              <div className="grid grid-cols-1 sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-gray-200">
                 {/* Step 1 */}
                 <div className="p-8 flex flex-col gap-4">
                   <div className="w-10 h-10 flex items-center justify-center">
